@@ -10,6 +10,7 @@ import sys
 
 ALL_EXERCISES = {
     "add10": {
+        "repr": "$a + $b",
         "expr": "$a + $b",
         "vars": {
             "a": range(1, 10),
@@ -18,6 +19,7 @@ ALL_EXERCISES = {
         "criteria": ["$a + $b <= 10"]
     },
     "add15-1d": {
+        "repr": "$a + $b",
         "expr": "$a + $b",
         "vars": {
             "a": range(1, 10),
@@ -26,6 +28,7 @@ ALL_EXERCISES = {
         "criteria": ["$a + $b <= 15", "$a + $b >= 7"]
     },
     "add20-1d": {
+        "repr": "$a + $b",
         "expr": "$a + $b",
         "vars": {
             "a": range(1, 10),
@@ -34,6 +37,7 @@ ALL_EXERCISES = {
         "criteria": ["$a + $b >= 7"]
     },
     "add20-2d": {
+        "repr": "$a + $b",
         "expr": "$a + $b",
         "vars": {
             "a": range(1, 20),
@@ -42,10 +46,20 @@ ALL_EXERCISES = {
         "criteria": ["$a + $b <= 20", "$a + $b >= 7"]
     },
     "sub10": {
+        "repr": "$a - $b",
         "expr": "$a - $b",
         "vars": {
             "a": range(1, 10),
             "b": range(1, 10),
+        },
+        "criteria": ["$a - $b > 0"]
+    },
+    "sub20": {
+        "repr": "$a - $b",
+        "expr": "$a - $b",
+        "vars": {
+            "a": range(1, 20),
+            "b": range(1, 20),
         },
         "criteria": ["$a - $b > 0"]
     }
@@ -74,7 +88,8 @@ def make_all_cases(exercise):
             cr = string.Template(c).substitute(**tpl_vars)
             valid = valid and eval(cr)
         if valid:
-            cases.append(expr)
+            repr = string.Template(exercise["repr"]).substitute(**tpl_vars)
+            cases.append((repr, expr))
     return cases
 
 
@@ -84,13 +99,13 @@ def make_test_case(exercise):
         for k, v in exercise["vars"].items():
             tpl_vars[k] = str(random.choice(v))
         expr = string.Template(exercise["expr"]).substitute(**tpl_vars)
-        expected = eval(expr)
         allowed = True
         for c in exercise["criteria"]:
             cr = string.Template(c).substitute(**tpl_vars)
             allowed = allowed and eval(cr)
         if allowed:
-            return (expr, expected)
+            repr = string.Template(exercise["repr"]).substitute(**tpl_vars)
+            return (repr, expr)
 
 
 def make_test_suite(exercise, count):
@@ -102,13 +117,13 @@ def do_exercise(suite):
     count = len(suite)
     oneshot = [True for i in range(count)]
     redo = []
-    for i, expr in enumerate(suite):
+    for i, (repr, expr) in enumerate(suite):
         expected = eval(expr)
-        prompt = "✏️  " + expr + " = "
+        prompt = "✏️  " + repr + " = "
         while read_int(prompt) != expected:
             print("❎ 错了，😢😢😢\n")
             oneshot[i] = False
-            redo.append(expr)
+            redo.append((repr, expr))
         print("✅ 对了，😁😁😁\n")
     good = oneshot.count(True)
     score = int(good / count * 100)
