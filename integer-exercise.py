@@ -88,8 +88,8 @@ def run_exercise(exercise, count):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("EXERCISE", help="练习题类型", choices=ALL_EXERCISES.keys())
-    parser.add_argument("COUNT", help="题目数", type=int)
+    parser.add_argument("EXERCISE", help="题库", choices=ALL_EXERCISES.keys())
+    parser.add_argument("COUNT", help="题数", type=int)
 
     args = parser.parse_args()
     run_exercise(ALL_EXERCISES[args.EXERCISE], args.COUNT)
