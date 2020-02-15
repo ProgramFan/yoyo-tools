@@ -57,6 +57,8 @@ def make_test_case(exercise):
 
 def make_test_suite(exercise, count):
     all_cases = make_all_cases(exercise)
+    if len(all_cases) < count:
+        all_cases *= (count + len(all_cases) - 1) // len(all_cases)
     return random.sample(all_cases, count)
 
 
