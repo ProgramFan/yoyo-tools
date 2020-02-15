@@ -7,63 +7,9 @@ import random
 import re
 import string
 import sys
+import json
 
-ALL_EXERCISES = {
-    "add10": {
-        "repr": "$a + $b",
-        "expr": "$a + $b",
-        "vars": {
-            "a": range(1, 10),
-            "b": range(1, 10),
-        },
-        "criteria": ["$a + $b <= 10"]
-    },
-    "add15-1d": {
-        "repr": "$a + $b",
-        "expr": "$a + $b",
-        "vars": {
-            "a": range(1, 10),
-            "b": range(1, 10),
-        },
-        "criteria": ["$a + $b <= 15", "$a + $b >= 7"]
-    },
-    "add20-1d": {
-        "repr": "$a + $b",
-        "expr": "$a + $b",
-        "vars": {
-            "a": range(1, 10),
-            "b": range(1, 10),
-        },
-        "criteria": ["$a + $b >= 7"]
-    },
-    "add20-2d": {
-        "repr": "$a + $b",
-        "expr": "$a + $b",
-        "vars": {
-            "a": range(1, 20),
-            "b": range(1, 20),
-        },
-        "criteria": ["$a + $b <= 20", "$a + $b >= 7"]
-    },
-    "sub10": {
-        "repr": "$a - $b",
-        "expr": "$a - $b",
-        "vars": {
-            "a": range(1, 10),
-            "b": range(1, 10),
-        },
-        "criteria": ["$a - $b > 0"]
-    },
-    "sub20": {
-        "repr": "$a - $b",
-        "expr": "$a - $b",
-        "vars": {
-            "a": range(1, 20),
-            "b": range(1, 20),
-        },
-        "criteria": ["$a - $b > 0"]
-    }
-}
+ALL_EXERCISES = json.load(open("data/integer-exercise.json"))
 
 
 def read_int(s):
@@ -78,7 +24,8 @@ def read_int(s):
 
 def make_all_cases(exercise):
     var_names = exercise["vars"].keys()
-    var_values = [exercise["vars"][k] for k in var_names]
+    to_list = lambda x: eval(x) if isinstance(x, str) else list(x)
+    var_values = [to_list(exercise["vars"][k]) for k in var_names]
     cases = []
     for trail in itertools.product(*var_values):
         tpl_vars = dict(zip(var_names, trail))

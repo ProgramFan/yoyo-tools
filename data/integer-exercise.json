@@ -1,0 +1,56 @@
+{
+  "add10": {
+    "repr": "$a + $b",
+    "expr": "$a + $b",
+    "vars": {
+      "a": "range(1, 10)",
+      "b": "range(1, 10)"
+    },
+    "criteria": ["$a + $b <= 10"]
+  },
+  "add15-1d": {
+    "repr": "$a + $b",
+    "expr": "$a + $b",
+    "vars": {
+      "a": "range(1, 10)",
+      "b": "range(1, 10)"
+    },
+    "criteria": ["$a + $b <= 15", "$a + $b >= 7"]
+  },
+  "add20-1d": {
+    "repr": "$a + $b",
+    "expr": "$a + $b",
+    "vars": {
+      "a": "range(1, 10)",
+      "b": "range(1, 10)"
+    },
+    "criteria": ["$a + $b >= 7"]
+  },
+  "add20-2d": {
+    "repr": "$a + $b",
+    "expr": "$a + $b",
+    "vars": {
+      "a": "range(1, 20)",
+      "b": "range(1, 20)"
+    },
+    "criteria": ["$a + $b <= 20", "$a + $b >= 7"]
+  },
+  "sub10": {
+    "repr": "$a - $b",
+    "expr": "$a - $b",
+    "vars": {
+      "a": "range(1, 10)",
+      "b": "range(1, 10)"
+    },
+    "criteria": ["$a - $b > 0"]
+  },
+  "sub20": {
+    "repr": "$a - $b",
+    "expr": "$a - $b",
+    "vars": {
+      "a": "range(1, 20)",
+      "b": "range(1, 20)"
+    },
+    "criteria": ["$a - $b > 0"]
+  }
+}
