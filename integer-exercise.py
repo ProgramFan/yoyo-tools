@@ -13,7 +13,7 @@ ALL_EXERCISES = json.load(open("data/integer-exercise.json"))
 
 
 def read_int(s):
-    int_regex = re.compile(r"\d+")
+    int_regex = re.compile(r"^\d+$")
     while True:
         v = input(s)
         if v == "q":
