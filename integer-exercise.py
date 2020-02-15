@@ -55,8 +55,10 @@ def make_test_case(exercise):
             return (repr, expr)
 
 
-def make_test_suite(exercise, count):
-    all_cases = make_all_cases(exercise)
+def make_test_suite(exercises, count):
+    all_cases = []
+    for e in exercises:
+        all_cases.extend(make_all_cases(e))
     if len(all_cases) < count:
         all_cases *= (count + len(all_cases) - 1) // len(all_cases)
     return random.sample(all_cases, count)
@@ -81,8 +83,8 @@ def do_exercise(suite):
     return redo
 
 
-def run_exercise(exercise, count):
-    suite = make_test_suite(exercise, count)
+def run_exercise(exercises, count):
+    suite = make_test_suite(exercises, count)
     while suite:
         suite = do_exercise(suite)
         print("")
@@ -90,11 +92,21 @@ def run_exercise(exercise, count):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("EXERCISE", help="题库", choices=ALL_EXERCISES.keys())
-    parser.add_argument("COUNT", help="题数", type=int)
+    parser.add_argument("-e, --exercise",
+                        help="题库",
+                        nargs="+",
+                        choices=ALL_EXERCISES.keys(),
+                        dest="EXERCISE",
+                        required=True)
+    parser.add_argument("-c, --count",
+                        help="题数",
+                        type=int,
+                        dest="COUNT",
+                        required=True)
 
     args = parser.parse_args()
-    run_exercise(ALL_EXERCISES[args.EXERCISE], args.COUNT)
+    exercises = [ALL_EXERCISES[e] for e in args.EXERCISE]
+    run_exercise(exercises, args.COUNT)
 
 
 if __name__ == "__main__":
