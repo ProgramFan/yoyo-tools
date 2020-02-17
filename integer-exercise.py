@@ -10,6 +10,14 @@ import sys
 import json
 
 ALL_EXERCISES = json.load(open("data/integer-exercise.json"))
+PROGRESS_CHARS = [
+    "🕛", "🕐", "🕑", "🕒", "🕓", "🕔", "🕕", "🕖", "🕗", "🕘", "🕙", "🕚", "🕛"
+]
+
+
+def show_progress(v):
+    assert v >= 0 and v <= 1
+    return PROGRESS_CHARS[int(round(v * len(PROGRESS_CHARS)))]
 
 
 def read_int(s):
@@ -70,7 +78,7 @@ def do_exercise(suite):
     redo = []
     for i, (repr, expr) in enumerate(suite):
         expected = eval(expr)
-        prompt = "✏️  " + repr + " = "
+        prompt = show_progress(i / count) + " " + repr + " = "
         while read_int(prompt) != expected:
             print("❎ 错了，😢😢😢\n")
             oneshot[i] = False
