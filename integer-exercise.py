@@ -8,6 +8,7 @@ import re
 import string
 import sys
 import json
+import datetime
 
 ALL_EXERCISES = json.load(open("data/integer-exercise.json"))
 PROGRESS_CHARS = [
@@ -92,10 +93,14 @@ def do_exercise(suite):
 
 
 def run_exercise(exercises, count):
+    begin = datetime.datetime.now()
     suite = make_test_suite(exercises, count)
     while suite:
         suite = do_exercise(suite)
         print("")
+    end = datetime.datetime.now()
+    secs_used = (end - begin).total_seconds()
+    print("⏰⏰⏰ 用时：{}分{}秒\n".format(secs_used // 60, secs_used % 60))
 
 
 def main():
