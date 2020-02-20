@@ -99,7 +99,7 @@ def run_exercise(exercises, count):
         suite = do_exercise(suite)
         print("")
     end = datetime.datetime.now()
-    secs_used = (end - begin).total_seconds()
+    secs_used = int((end - begin).total_seconds())
     print("⏰⏰⏰ 用时：{}分{}秒\n".format(secs_used // 60, secs_used % 60))
 
 
