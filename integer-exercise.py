@@ -17,7 +17,7 @@ PROGRESS_CHARS = [
 
 def show_progress(v):
     assert v >= 0 and v <= 1
-    return PROGRESS_CHARS[int(round(v * len(PROGRESS_CHARS)))]
+    return PROGRESS_CHARS[int(round(v * (len(PROGRESS_CHARS) - 1)))]
 
 
 def read_int(s):
