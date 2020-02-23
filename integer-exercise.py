@@ -9,6 +9,7 @@ import string
 import sys
 import json
 import datetime
+import math
 
 ALL_EXERCISES = json.load(open("data/integer-exercise.json"))
 PROGRESS_CHARS = [
@@ -76,19 +77,37 @@ def make_test_suite(exercises, count):
 def do_exercise(suite):
     count = len(suite)
     oneshot = [True for i in range(count)]
+    time = [0 for i in range(count)]
     redo = []
     for i, (repr, expr) in enumerate(suite):
         expected = eval(expr)
         prompt = show_progress(i / count) + " " + repr + " = "
+        t0 = datetime.datetime.now()
         while read_int(prompt) != expected:
             print("❎ 错了，😢😢😢\n")
             oneshot[i] = False
+        t1 = datetime.datetime.now()
+        time[i] = (t1 - t0).total_seconds()
+        if oneshot[i] == False:
             redo.append((repr, expr))
         print("✅ 对了，😁😁😁\n")
     good = oneshot.count(True)
     score = int(good / count * 100)
     print("🎉🎉🎉 恭喜你做完了！")
     print("💛💛💛 做对：{} 道，得 {} 分\n".format(good, score))
+    # Add those takes extremely long to finish into next round so that they can
+    # be memorized. Here we use the technique of z-score for outlier detection
+    # and the exercise over 2.5 std derivations are considered too slow and
+    # added to the redo list.
+    if count == 1:
+        return redo
+    avg = sum(time) / len(time)
+    std = math.sqrt(1.0 / len(time) * sum((v - avg)**2 for v in time))
+    if std / avg < 0.05:
+        return redo
+    for i, v in enumerate(suite):
+        if (time[i] - avg) / std > 2.5 and v not in redo:
+            redo.append(v)
     return redo
 
 
