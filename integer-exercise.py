@@ -22,10 +22,10 @@ def show_progress(v):
 
 
 def read_int(s):
-    int_regex = re.compile(r"^\d+$")
+    int_regex = re.compile(r"\s*^\d+\s*$")
     while True:
         v = input(s)
-        if v == "q":
+        if v == "quit":
             sys.exit()
         if int_regex.match(v):
             return int(v)
