@@ -111,15 +111,19 @@ def do_exercise(suite):
     return redo
 
 
-def run_exercise(exercises, count):
+def run_exercise(exercises, count, dump):
+    used_suites = []
     begin = datetime.datetime.now()
     suite = make_test_suite(exercises, count)
     while suite:
+        used_suites.append(list(suite))
         suite = do_exercise(suite)
         print("")
     end = datetime.datetime.now()
     secs_used = int((end - begin).total_seconds())
     print("⏰⏰⏰ 用时：{}分{}秒\n".format(secs_used // 60, secs_used % 60))
+    if dump is not None:
+        json.dump(used_suites, open(dump, "w"))
 
 
 def main():
@@ -135,10 +139,14 @@ def main():
                         type=int,
                         dest="COUNT",
                         required=True)
+    parser.add_argument("-d, --dump",
+                        help="导出做题过程到文件",
+                        dest="DUMP",
+                        default="solving.json")
 
     args = parser.parse_args()
     exercises = [ALL_EXERCISES[e] for e in args.EXERCISE]
-    run_exercise(exercises, args.COUNT)
+    run_exercise(exercises, args.COUNT, args.DUMP)
 
 
 if __name__ == "__main__":
