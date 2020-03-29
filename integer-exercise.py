@@ -22,6 +22,12 @@ def show_progress(v):
     return PROGRESS_CHARS[int(round(v * (len(PROGRESS_CHARS) - 1)))]
 
 
+def clear_screen():
+    print(chr(27)+'[2j')
+    print('\033c')
+    print('\x1bc')
+
+
 def read_int(s):
     int_regex = re.compile(r"\s*^\d+\s*$")
     while True:
@@ -115,6 +121,7 @@ def run_exercise(exercises, count, dump):
     used_suites = []
     begin = datetime.datetime.now()
     suite = make_test_suite(exercises, count)
+    clear_screen()
     while suite:
         used_suites.append(list(suite))
         suite = do_exercise(suite)
