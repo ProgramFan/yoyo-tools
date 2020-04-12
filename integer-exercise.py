@@ -71,13 +71,23 @@ def make_test_case(exercise):
             return (repr, expr)
 
 
+def sample_n(collection, count):
+    if len(collection) < count:
+        collection *= (count + len(collection) - 1) // len(collection)
+    return random.sample(collection, count)
+
+
 def make_test_suite(exercises, count):
-    all_cases = []
-    for e in exercises:
-        all_cases.extend(make_all_cases(e))
-    if len(all_cases) < count:
-        all_cases *= (count + len(all_cases) - 1) // len(all_cases)
-    return random.sample(all_cases, count)
+    result = []
+    avg = count // len(exercises)
+    last = avg
+    if avg * len(exercises) != count:
+        last = count - avg * (len(exercises) - 1)
+    for e in exercises[:-1]:
+        result.extend(sample_n(make_all_cases(e), avg))
+    result.extend(sample_n(make_all_cases(exercises[-1]), last))
+    random.shuffle(result)
+    return result
 
 
 def do_exercise(suite):
@@ -140,6 +150,7 @@ def main():
                         nargs="+",
                         choices=ALL_EXERCISES.keys(),
                         dest="EXERCISE",
+                        action="append",
                         required=True)
     parser.add_argument("-c, --count",
                         help="题数",
@@ -152,7 +163,9 @@ def main():
                         default="solving.json")
 
     args = parser.parse_args()
-    exercises = [ALL_EXERCISES[e] for e in args.EXERCISE]
+    exercises = []
+    for e0 in args.EXERCISE:
+        exercises.extend(ALL_EXERCISES[e] for e in e0)
     run_exercise(exercises, args.COUNT, args.DUMP)
 
 
