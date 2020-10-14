@@ -97,5 +97,14 @@
       "b": "range(1, 100)"
     },
     "criteria": ["$a - $b > 10"]
+  },
+  "sub100-inv": {
+    "repr": "$a - ? = $b",
+    "expr": "$a - $b",
+    "vars": {
+      "a": "range(11, 100)",
+      "b": "range(1, 100)"
+    },
+    "criteria": ["$a - $b > 10"]
   }
 }

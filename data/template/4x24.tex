@@ -1,12 +1,12 @@
 \documentclass[a4paper, 17pt]{extarticle}
 
 \usepackage{ctex} % for CJK support
-\usepackage[left=2.5cm, right=2.5em, top=2cm, bottom=1cm]{geometry}
+\usepackage[left=2.5cm, right=2.5em, top=1.5cm, bottom=0.5cm]{geometry}
 \pagestyle{empty}
 \usepackage{xcolor}
 \definecolor{darkpastelgreen}{rgb}{0.01, 0.75, 0.24}
 
-\newcommand{\abox}{\fbox{\rule{1.5em}{0pt}\rule{0pt}{0.7em}}}
+\newcommand{\abox}{\fbox{\rule{1.1em}{0pt}\rule{0pt}{0.7em}}\hspace{0.2em}}
 \newcommand{\aline}[1]{\rule{#1}{0.4pt}}
 
 \begin{document}
@@ -14,13 +14,15 @@
 \color{darkpastelgreen}
 
 \begin{center}
-  \large \kaishu
+  \Large \kaishu
   \underline{
     >\hspace{-3pt}>\hspace{-3pt}>
     ${title}
     <\hspace{-3pt}<\hspace{-3pt}<
   }
 \end{center}
+
+\vspace{0.2cm}
 
 \begin{center}
   \begin{tabular}{*{4}{p{0.21\textwidth}}}
