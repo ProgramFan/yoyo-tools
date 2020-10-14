@@ -10,8 +10,12 @@ import sys
 import json
 import datetime
 import math
+import os
 
-ALL_EXERCISES = json.load(open("data/integer-exercise.json"))
+SCRIPT_DIR = os.path.realpath(os.path.dirname(sys.argv[0]))
+DATA_DIR = os.path.join(SCRIPT_DIR, "data")
+ALL_EXERCISES = json.load(open(os.path.join(DATA_DIR,
+                                            "integer-exercise.json")))
 PROGRESS_CHARS = [
     "🕛", "🕐", "🕑", "🕒", "🕓", "🕔", "🕕", "🕖", "🕗", "🕘", "🕙", "🕚", "🕛"
 ]
@@ -149,6 +153,25 @@ def run_exercise(exercises, count, dump, feedback):
         json.dump(used_suites, open(dump, "w"))
 
 
+def make_latex(exercises, count, title):
+    used_suites = []
+    suite = make_test_suite(exercises, count)
+    tpl_dir = os.path.join(DATA_DIR, "template")
+    tpl = string.Template(open(os.path.join(tpl_dir, "4x24.tex")).read())
+    content = ""
+    line_segs = []
+    for repr, _ in suite:
+        line_segs.append(f"{repr} = ")
+        if len(line_segs) == 4:
+            content += "    " + " & ".join(line_segs) + " \\\\\n"
+            line_segs = []
+    if line_segs:
+        line_segs = line_segs + [" "] * (4 - len(line_segs))
+        content += "    " + " & ".join(line_segs) + " \\\\\n"
+    tpl_vars = {"title": title, "content": content}
+    print(tpl.safe_substitute(**tpl_vars))
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-e, --exercise",
@@ -171,12 +194,19 @@ def main():
                         help="即时反馈",
                         dest="FEEDBACK",
                         action="store_true")
+    parser.add_argument("-l, --to-latex",
+                        help="生成 LaTeX 试卷",
+                        dest="TITLE",
+                        default=None)
 
     args = parser.parse_args()
     exercises = []
     for e0 in args.EXERCISE:
         exercises.extend(ALL_EXERCISES[e] for e in e0)
-    run_exercise(exercises, args.COUNT, args.DUMP, args.FEEDBACK)
+    if args.TITLE:
+        make_latex(exercises, args.COUNT, args.TITLE)
+    else:
+        run_exercise(exercises, args.COUNT, args.DUMP, args.FEEDBACK)
 
 
 if __name__ == "__main__":
