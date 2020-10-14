@@ -1,6 +1,6 @@
 {
   "add10": {
-    "repr": "$a + $b",
+    "repr": "$a + $b =",
     "expr": "$a + $b",
     "vars": {
       "a": "range(1, 10)",
@@ -9,7 +9,7 @@
     "criteria": ["$a + $b <= 10"]
   },
   "add15-1d": {
-    "repr": "$a + $b",
+    "repr": "$a + $b =",
     "expr": "$a + $b",
     "vars": {
       "a": "range(1, 10)",
@@ -18,7 +18,7 @@
     "criteria": ["$a + $b <= 15", "$a + $b >= 10"]
   },
   "add20-1d": {
-    "repr": "$a + $b",
+    "repr": "$a + $b =",
     "expr": "$a + $b",
     "vars": {
       "a": "range(1, 10)",
@@ -27,7 +27,7 @@
     "criteria": ["$a + $b >= 7"]
   },
   "add20-2d": {
-    "repr": "$a + $b",
+    "repr": "$a + $b =",
     "expr": "$a + $b",
     "vars": {
       "a": "range(1, 20)",
@@ -36,7 +36,7 @@
     "criteria": ["$a + $b <= 20", "$a + $b >= 7"]
   },
   "add20-l": {
-    "repr": "$a + $b",
+    "repr": "$a + $b =",
     "expr": "$a + $b",
     "vars": {
       "a": "range(1, 20)",
@@ -45,7 +45,7 @@
     "criteria": ["$a + $b <= 20", "$a >= 10 or $b >= 10"]
   },
   "add30-l": {
-    "repr": "$a + $b",
+    "repr": "$a + $b =",
     "expr": "$a + $b",
     "vars": {
       "a": "range(1, 20)",
@@ -54,7 +54,7 @@
     "criteria": ["$a + $b <= 28", "$a >= 10 or $b >= 10"]
   },
   "add40-l": {
-    "repr": "$a + $b",
+    "repr": "$a + $b =",
     "expr": "$a + $b",
     "vars": {
       "a": "range(1, 20)",
@@ -63,7 +63,7 @@
     "criteria": ["$a + $b < 40", "$a >= 10 or $b >= 10"]
   },
   "add100": {
-    "repr": "$a + $b",
+    "repr": "$a + $b =",
     "expr": "$a + $b",
     "vars": {
       "a": "range(1, 99)",
@@ -72,7 +72,7 @@
     "criteria": ["$a + $b < 100", "$a >= 10 and $b >= 10"]
   },
   "sub10": {
-    "repr": "$a - $b",
+    "repr": "$a - $b =",
     "expr": "$a - $b",
     "vars": {
       "a": "range(1, 10)",
@@ -81,7 +81,7 @@
     "criteria": ["$a - $b > 0"]
   },
   "sub20-s": {
-    "repr": "$a - $b",
+    "repr": "$a - $b =",
     "expr": "$a - $b",
     "vars": {
       "a": "range(10, 20)",
@@ -90,7 +90,7 @@
     "criteria": ["$a - $b < 10"]
   },
   "sub100": {
-    "repr": "$a - $b",
+    "repr": "$a - $b =",
     "expr": "$a - $b",
     "vars": {
       "a": "range(11, 100)",

@@ -101,7 +101,7 @@ def do_exercise(suite, feedback):
     redo = []
     for i, (repr, expr) in enumerate(suite):
         expected = eval(expr)
-        prompt = show_progress(i / count) + " " + repr + " = "
+        prompt = show_progress(i / count) + " " + repr + " "
         t0 = datetime.datetime.now()
         if feedback:
             while read_int(prompt) != expected:
@@ -161,7 +161,7 @@ def make_latex(exercises, count, title):
     content = ""
     line_segs = []
     for repr, _ in suite:
-        line_segs.append(f"{repr} = ")
+        line_segs.append(repr)
         if len(line_segs) == 4:
             content += "    " + " & ".join(line_segs) + " \\\\\n"
             line_segs = []
