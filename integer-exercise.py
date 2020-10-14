@@ -90,7 +90,7 @@ def make_test_suite(exercises, count):
     return result
 
 
-def do_exercise(suite):
+def do_exercise(suite, show_wrong=True):
     count = len(suite)
     oneshot = [True for i in range(count)]
     time = [0 for i in range(count)]
@@ -99,14 +99,19 @@ def do_exercise(suite):
         expected = eval(expr)
         prompt = show_progress(i / count) + " " + repr + " = "
         t0 = datetime.datetime.now()
-        while read_int(prompt) != expected:
-            print("❎ 错了，😢😢😢\n")
-            oneshot[i] = False
+        if show_wrong:
+            while read_int(prompt) != expected:
+                print("❎ 错了，😢😢😢\n")
+                oneshot[i] = False
+        else:
+            if read_int(prompt) != expected:
+                oneshot[i] = False
         t1 = datetime.datetime.now()
         time[i] = (t1 - t0).total_seconds()
         if oneshot[i] == False:
             redo.append((repr, expr))
-        print("✅ 对了，😁😁😁\n")
+        if show_wrong:
+            print("✅ 对了，😁😁😁\n")
     good = oneshot.count(True)
     score = int(good / count * 100)
     print("🎉🎉🎉 恭喜你做完了！")
@@ -132,10 +137,12 @@ def run_exercise(exercises, count, dump):
     begin = datetime.datetime.now()
     suite = make_test_suite(exercises, count)
     clear_screen()
+    first_time = True
     while suite:
         used_suites.append(list(suite))
-        suite = do_exercise(suite)
+        suite = do_exercise(suite, not first_time)
         print("")
+        first_time = False
     end = datetime.datetime.now()
     secs_used = int((end - begin).total_seconds())
     print("⏰⏰⏰ 用时：{}分{}秒\n".format(secs_used // 60, secs_used % 60))
