@@ -23,7 +23,7 @@ def show_progress(v):
 
 
 def clear_screen():
-    print(chr(27)+'[2j')
+    print(chr(27) + '[2j')
     print('\033c')
     print('\x1bc')
 
@@ -90,7 +90,7 @@ def make_test_suite(exercises, count):
     return result
 
 
-def do_exercise(suite, show_wrong=True):
+def do_exercise(suite, feedback):
     count = len(suite)
     oneshot = [True for i in range(count)]
     time = [0 for i in range(count)]
@@ -99,10 +99,11 @@ def do_exercise(suite, show_wrong=True):
         expected = eval(expr)
         prompt = show_progress(i / count) + " " + repr + " = "
         t0 = datetime.datetime.now()
-        if show_wrong:
+        if feedback:
             while read_int(prompt) != expected:
                 print("❎ 错了，😢😢😢\n")
                 oneshot[i] = False
+            print("✅ 对了，😁😁😁\n")
         else:
             if read_int(prompt) != expected:
                 oneshot[i] = False
@@ -110,8 +111,6 @@ def do_exercise(suite, show_wrong=True):
         time[i] = (t1 - t0).total_seconds()
         if oneshot[i] == False:
             redo.append((repr, expr))
-        if show_wrong:
-            print("✅ 对了，😁😁😁\n")
     good = oneshot.count(True)
     score = int(good / count * 100)
     print("🎉🎉🎉 恭喜你做完了！")
@@ -132,15 +131,15 @@ def do_exercise(suite, show_wrong=True):
     return redo
 
 
-def run_exercise(exercises, count, dump):
+def run_exercise(exercises, count, dump, feedback):
     used_suites = []
-    begin = datetime.datetime.now()
     suite = make_test_suite(exercises, count)
     clear_screen()
+    begin = datetime.datetime.now()
     first_time = True
     while suite:
         used_suites.append(list(suite))
-        suite = do_exercise(suite, not first_time)
+        suite = do_exercise(suite, feedback or not first_time)
         print("")
         first_time = False
     end = datetime.datetime.now()
@@ -168,12 +167,16 @@ def main():
                         help="导出做题过程到文件",
                         dest="DUMP",
                         default="solving.json")
+    parser.add_argument("-f, --feedback",
+                        help="即时反馈",
+                        dest="FEEDBACK",
+                        action="store_true")
 
     args = parser.parse_args()
     exercises = []
     for e0 in args.EXERCISE:
         exercises.extend(ALL_EXERCISES[e] for e in e0)
-    run_exercise(exercises, args.COUNT, args.DUMP)
+    run_exercise(exercises, args.COUNT, args.DUMP, args.FEEDBACK)
 
 
 if __name__ == "__main__":
