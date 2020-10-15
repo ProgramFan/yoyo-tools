@@ -162,16 +162,30 @@ def make_latex(exercises, count, title):
     tpl_dir = os.path.join(DATA_DIR, "template")
     tpl = string.Template(open(os.path.join(tpl_dir, "4x24.tex")).read())
     content = ""
+    answers = ""
     line_segs = []
-    for repr, _ in suite:
+    ans_segs = []
+    for repr, expr in suite:
         line_segs.append(repr.replace("?", "\\abox "))
+
+        value = eval(expr)
+        value_repr = f"\\fbox{{\\textbf{{{value}}}}}"
+        if "?" in repr:
+            ans_segs.append(repr.replace("?", value_repr))
+        else:
+            ans_segs.append(f"{repr} {value_repr}")
+
         if len(line_segs) == 4:
             content += "    " + " & ".join(line_segs) + " \\\\\n"
+            answers += "    " + " & ".join(ans_segs) + " \\\\\n"
             line_segs = []
+            ans_segs = []
     if line_segs:
         line_segs = line_segs + [" "] * (4 - len(line_segs))
+        ans_segs = ans_segs + [" "] * (4 - len(ans_segs))
         content += "    " + " & ".join(line_segs) + " \\\\\n"
-    tpl_vars = {"title": title, "content": content}
+        answers += "    " + " & ".join(ans_segs) + " \\\\\n"
+    tpl_vars = {"title": title, "content": content, "answers": answers}
     print(tpl.safe_substitute(**tpl_vars))
 
 
