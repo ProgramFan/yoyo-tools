@@ -84,10 +84,19 @@
     "repr": "$a - $b =",
     "expr": "$a - $b",
     "vars": {
-      "a": "range(10, 20)",
+      "a": "range(11, 20)",
       "b": "range(1, 10)"
     },
     "criteria": ["$a - $b < 10"]
+  },
+  "sub20": {
+    "repr": "$a - $b =",
+    "expr": "$a - $b",
+    "vars": {
+      "a": "range(11, 20)",
+      "b": "range(11, 20)"
+    },
+    "criteria": ["$a - $b > 0 and $a - $b < 10"]
   },
   "sub100": {
     "repr": "$a - $b =",
