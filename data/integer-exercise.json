@@ -71,6 +71,24 @@
     },
     "criteria": ["$a + $b < 100", "$a >= 10 and $b >= 10"]
   },
+  "add100-inv": {
+    "repr": "$a + ? = $b",
+    "expr": "$b - $a",
+    "vars": {
+      "a": "range(1, 99)",
+      "b": "range(1, 99)"
+    },
+    "criteria": ["$a < $b", "$a >= 10 and $b >= 10"]
+  },
+  "add100-inv2": {
+    "repr": "? + $a = $b",
+    "expr": "$b - $a",
+    "vars": {
+      "a": "range(1, 99)",
+      "b": "range(1, 99)"
+    },
+    "criteria": ["$a < $b", "$a >= 10 and $b >= 10"]
+  },
   "sub10": {
     "repr": "$a - $b =",
     "expr": "$a - $b",
