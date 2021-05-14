@@ -1,8 +1,10 @@
 #!/bin/bash
 
 NUM_CN=(
-  [1]="一" [2]="二" [3]="三" [4]="四" [5]="五" [6]="六"
-  [7]="七" [8]="八" [9]="九" [0]="零"
+  [1]="一" [2]="二" [3]="三" [4]="四" [5]="五"
+  [6]="六" [7]="七" [8]="八" [9]="九" [10]="十"
+  [11]="十一" [12]="十二" [13]="十三" [14]="十四" [15]="十五"
+  [16]="十六" [17]="十七" [18]="十八" [19]="十九" [20]="二十"
 )
 
 # Usage: make-integer-exercise-paper NAME COUNT ...
@@ -19,7 +21,9 @@ function make-integer-exercise-paper() {
   done
 }
 
-make-integer-exercise-paper "10以内加减法" 2 -e add10 sub10 -c 100
-make-integer-exercise-paper "20以内加法" 3 -e add20-l -c 100
-make-integer-exercise-paper "20以内减法" 2 -e sub20 -c 100
-make-integer-exercise-paper "20以内加减法" 5 -e add20-l sub20 -c 100
+make-integer-exercise-paper "100以内加减法-A1" 10 -e add100 sub100 -c 60
+make-integer-exercise-paper "100以内加减法-A2" 10 -e add100 sub100 -c 60
+make-integer-exercise-paper "100以内加减法-B1" 10 -e add100 sub100 -c 80
+make-integer-exercise-paper "100以内加减法-B2" 10 -e add100 sub100 -c 80
+make-integer-exercise-paper "100以内加减法-C1" 10 -e add100 sub100 -c 96
+make-integer-exercise-paper "100以内加减法-C2" 10 -e add100 sub100 -c 96
