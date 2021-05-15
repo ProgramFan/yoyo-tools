@@ -142,16 +142,17 @@ def run_exercise(exercises, count, dump, feedback):
     used_suites = []
     suite = make_test_suite(exercises, count)
     clear_screen()
-    begin = datetime.datetime.now()
     first_time = True
     while suite:
         used_suites.append(list(suite))
+        begin = datetime.datetime.now()
         suite = do_exercise(suite, feedback or not first_time)
+        end = datetime.datetime.now()
         print("")
+        if first_time:
+            secs_used = int((end - begin).total_seconds())
+            print("⏰⏰⏰ 用时：{}分{}秒\n".format(secs_used // 60, secs_used % 60))
         first_time = False
-    end = datetime.datetime.now()
-    secs_used = int((end - begin).total_seconds())
-    print("⏰⏰⏰ 用时：{}分{}秒\n".format(secs_used // 60, secs_used % 60))
     if dump is not None:
         json.dump(used_suites, open(dump, "w"))
 
