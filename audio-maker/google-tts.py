@@ -2,10 +2,10 @@
 #
 
 import argparse
-from google.cloud import texttospeech as tts
 
 
 def create_audio(text, audio, ssml=False, speed=1.0):
+    from google.cloud import texttospeech as tts
     with open(text) as f:
         content = f.read()
     client = tts.TextToSpeechClient()
